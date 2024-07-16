@@ -1,0 +1,18 @@
+[
+  {
+    "type": "file",
+    "name": "file1",
+    "path": "pages/file1.html"
+  },
+  {
+    "type": "directory",
+    "name": "test",
+    "children": [
+      {
+        "type": "file",
+        "name": "file2",
+        "path": "pages/test/file2.html"
+      }
+    ]
+  }
+]
