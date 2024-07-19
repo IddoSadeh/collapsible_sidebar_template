@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.toggle('collapsed');
     }
 
+    // Load the last viewed page or default to empty
+    const lastPage = localStorage.getItem('lastPage') || '';
+    if (lastPage) {
+        contentFrame.src = lastPage;
+    }
+
     fetch('directory-structure.json')
         .then(response => {
             if (!response.ok) {
@@ -58,9 +64,19 @@ function populateSidebar(data, parentElement) {
             linkElement.textContent = item.name;
             linkElement.href = item.path;
             linkElement.target = 'contentFrame';
+            linkElement.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('contentFrame').src = item.path;
+                localStorage.setItem('lastPage', item.path);
+            });
             itemElement.appendChild(linkElement);
         }
 
         parentElement.appendChild(itemElement);
     }
 }
+
+// Listen for changes in the iframe src
+document.getElementById('contentFrame').addEventListener('load', function() {
+    localStorage.setItem('lastPage', this.contentWindow.location.href);
+});
